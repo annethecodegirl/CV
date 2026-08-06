@@ -29,21 +29,24 @@
 
 <style>
   :root{
-    --bg:#fbfaf7;
+    --bg:#f7f4ee;
     --surface:#ffffff;
-    --ink:#17181a;
-    --ink-soft:#3d4145;
-    --muted:#6a6f75;
-    --rule:#e3ded4;
-    --rule-strong:#c9c2b4;
-    --accent:#0f4c5c;          /* deep teal — primary */
-    --accent-tint:#e8eff1;
-    --clay:#8c4a28;            /* single restrained secondary accent */
-    --clay-tint:#f5ece5;
+    --ink:#162124;
+    --ink-soft:#3e4a4d;
+    --muted:#6b7475;
+    --rule:#ddd7cc;
+    --rule-strong:#bdb4a5;
+    --accent:#0b5363;
+    --accent-dark:#073d49;
+    --accent-tint:#e6f0f1;
+    --clay:#9a4d2b;
+    --clay-tint:#f6e9df;
+    --gold:#c4933c;
+    --shadow:0 18px 50px rgba(31,47,50,.08);
     --serif:"Charter","Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,"Helvetica Neue",Arial,sans-serif;
-    --wrap:1120px;
-    --nav-h:56px;
+    --wrap:1180px;
+    --nav-h:62px;
   }
 
   *,*::before,*::after{box-sizing:border-box;}
@@ -54,7 +57,10 @@
 
   body{
     margin:0;
-    background:var(--bg);
+    background:
+      radial-gradient(circle at 92% 6%, rgba(11,83,99,.09), transparent 27rem),
+      radial-gradient(circle at 8% 30%, rgba(154,77,43,.055), transparent 24rem),
+      var(--bg);
     color:var(--ink);
     font-family:var(--sans);
     font-size:16.5px;
@@ -79,8 +85,8 @@
   /* ---------- sticky nav ---------- */
   .sitenav{
     position:sticky;top:0;z-index:50;
-    background:rgba(251,250,247,0.93);
-    backdrop-filter:saturate(140%) blur(8px);
+    background:rgba(247,244,238,.9);
+    backdrop-filter:saturate(145%) blur(14px);
     border-bottom:1px solid var(--rule);
   }
   .sitenav .wrap{
@@ -88,8 +94,14 @@
     min-height:var(--nav-h);
   }
   .wordmark{
+    display:flex;align-items:center;gap:10px;
     font-family:var(--serif);font-size:16px;font-weight:600;letter-spacing:.01em;
     color:var(--ink);text-decoration:none;white-space:nowrap;flex:0 0 auto;
+  }
+  .monogram{
+    display:grid;place-items:center;width:31px;height:31px;border-radius:50%;
+    background:var(--accent);color:#fff;font-family:var(--sans);font-size:10px;
+    font-weight:700;letter-spacing:.09em;
   }
   .wordmark:hover{color:var(--accent);}
   .navlinks{
@@ -107,22 +119,29 @@
   .navlinks a[aria-current="true"]{color:var(--accent);border-bottom-color:var(--accent);}
 
   /* ---------- hero ---------- */
-  .hero{padding:76px 0 60px;border-bottom:1px solid var(--rule);}
+  .hero{padding:90px 0 76px;border-bottom:1px solid var(--rule);position:relative;overflow:hidden;}
+  .hero::after{
+    content:"";position:absolute;right:-120px;top:-180px;width:460px;height:460px;
+    border:1px solid rgba(11,83,99,.16);border-radius:50%;box-shadow:
+      0 0 0 48px rgba(11,83,99,.025),0 0 0 96px rgba(154,77,43,.018);
+    pointer-events:none;
+  }
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.7fr);gap:72px;align-items:end;position:relative;z-index:1;}
   .hero .eyebrow{
     font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);
     margin:0 0 16px;font-weight:600;
   }
   h1{
     font-family:var(--serif);
-    font-size:clamp(40px,6.2vw,64px);
-    line-height:1.02;letter-spacing:-.015em;
+    font-size:clamp(48px,7vw,78px);
+    line-height:.98;letter-spacing:-.025em;
     margin:0 0 20px;font-weight:600;
   }
   h1 em{font-style:italic;font-weight:400;}
   .lede{
-    font-size:clamp(18px,2.1vw,21px);
+    font-size:clamp(18px,2.1vw,22px);
     line-height:1.5;color:var(--ink-soft);
-    max-width:38ch;margin:0 0 22px;
+    max-width:43ch;margin:0 0 22px;
   }
   .affil{
     font-size:14.5px;color:var(--muted);margin:0 0 30px;max-width:60ch;
@@ -131,23 +150,36 @@
 
   .actions{display:flex;flex-wrap:wrap;gap:12px;}
   .btn{
-    display:inline-block;font-size:14.5px;font-weight:500;
-    padding:11px 20px;border-radius:3px;text-decoration:none;
+    display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:650;
+    padding:11px 19px;border-radius:999px;text-decoration:none;
     border:1px solid var(--accent);
+    transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
   }
-  .btn-primary{background:var(--accent);color:#fff;}
-  .btn-primary:hover{background:#0b3b47;}
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 22px rgba(11,83,99,.17);}
+  .btn-primary:hover{background:var(--accent-dark);}
   .btn-ghost{background:transparent;color:var(--accent);}
   .btn-ghost:hover{background:var(--accent-tint);}
+  button.btn{font-family:inherit;cursor:pointer;}
+
+  .hero-note{
+    position:relative;background:rgba(255,255,255,.72);border:1px solid rgba(189,180,165,.75);
+    border-radius:18px;padding:26px 26px 22px;box-shadow:var(--shadow);backdrop-filter:blur(8px);
+  }
+  .hero-note::before{content:"";position:absolute;left:26px;top:0;width:54px;height:3px;background:var(--clay);}
+  .hero-note-label{font-size:10.5px;font-weight:750;letter-spacing:.15em;text-transform:uppercase;color:var(--clay);margin:0 0 17px;}
+  .hero-note dl{margin:0;display:grid;gap:15px;}
+  .hero-note dt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+  .hero-note dd{margin:0;font-family:var(--serif);font-size:16px;line-height:1.35;color:var(--ink);}
 
   /* ---------- section scaffolding ---------- */
   main section{
-    padding:56px 0;
+    padding:70px 0;
     border-bottom:1px solid var(--rule);
     scroll-margin-top:calc(var(--nav-h) + 16px);
   }
   main section:last-of-type{border-bottom:0;}
-  .sec{display:grid;grid-template-columns:190px minmax(0,1fr);gap:48px;align-items:start;}
+  .sec{display:grid;grid-template-columns:190px minmax(0,1fr);gap:58px;align-items:start;}
   .sec > h2{
     position:sticky;top:calc(var(--nav-h) + 24px);
     font-family:var(--sans);
@@ -155,11 +187,15 @@
     color:var(--accent);margin:0;padding-top:3px;
     align-self:start;
   }
+  .sec > h2::before{
+    content:attr(data-index);display:block;font-family:var(--serif);font-size:34px;
+    font-weight:400;letter-spacing:-.02em;color:var(--rule-strong);margin-bottom:9px;
+  }
   .sec-body{min-width:0;}
   .sec-intro{font-size:17px;color:var(--ink-soft);max-width:68ch;margin:0 0 28px;}
 
   h3{
-    font-family:var(--serif);font-size:21px;line-height:1.28;
+    font-family:var(--serif);font-size:22px;line-height:1.25;
     margin:0 0 6px;font-weight:600;letter-spacing:-.005em;
   }
   h3.ent{
@@ -173,7 +209,7 @@
   .tag{
     display:inline-block;font-size:11px;font-weight:700;
     letter-spacing:.1em;text-transform:uppercase;
-    padding:3px 8px;border-radius:2px;
+    padding:4px 9px;border-radius:999px;
   }
   .tag-paper{background:var(--accent-tint);color:var(--accent);}
   .tag-wip{background:var(--clay-tint);color:var(--clay);}
@@ -185,18 +221,22 @@
   }
 
   /* ---------- research cards ---------- */
-  .cards{display:grid;gap:20px;}
+  .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;}
   .card{
     background:var(--surface);
     border:1px solid var(--rule);
-    border-left:3px solid var(--accent);
-    border-radius:3px;
-    padding:24px 26px;
+    border-top:3px solid var(--accent);
+    border-radius:14px;
+    padding:26px 28px;
+    box-shadow:0 10px 30px rgba(31,47,50,.045);
+    transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
   }
-  .card.wip{border-left-color:var(--clay);}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+  .card.featured{grid-column:1/-1;padding:31px 34px;}
+  .card.wip{border-top-color:var(--clay);}
   .card .status{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px;}
   .card p:last-child{margin-bottom:0;}
-  .card .desc{font-size:15.5px;color:var(--ink-soft);max-width:66ch;}
+  .card .desc{font-size:15.2px;color:var(--ink-soft);max-width:68ch;}
   ul.chips{display:flex;flex-wrap:wrap;gap:7px;list-style:none;margin:16px 0 0;padding:0;}
   ul.chips li{
     font-size:12px;letter-spacing:.03em;color:var(--muted);
@@ -220,10 +260,11 @@
   .entries > li.lead{
     background:var(--surface);
     border:1px solid var(--rule);
-    border-left:3px solid var(--clay);
-    border-radius:3px;
-    padding:22px 24px;
+    border-left:4px solid var(--clay);
+    border-radius:14px;
+    padding:25px 27px;
     margin-bottom:8px;
+    box-shadow:0 10px 30px rgba(31,47,50,.04);
   }
   .entries > li.lead + li{border-top:0;}
   .role{font-size:14.5px;color:var(--ink-soft);margin:0 0 8px;}
@@ -234,8 +275,17 @@
   ul.bullets li::marker{color:var(--accent);}
   .ttl{font-style:italic;}
 
+  /* ---------- dissertation ---------- */
+  .diss-title{font-size:clamp(25px,3vw,34px);max-width:27ch;margin-bottom:14px;}
+  .diss-lede{font-family:var(--serif);font-size:19px;line-height:1.52;color:var(--ink-soft);max-width:62ch;margin:16px 0 18px;}
+  .research-design{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;margin-top:28px;background:var(--rule);border:1px solid var(--rule);border-radius:14px;overflow:hidden;}
+  .design-item{background:rgba(255,255,255,.86);padding:20px 21px;}
+  .design-item .n{display:block;font-family:var(--serif);font-size:25px;color:var(--clay);margin-bottom:5px;}
+  .design-item strong{display:block;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+  .design-item span{display:block;font-size:13.5px;line-height:1.48;color:var(--ink-soft);}
+
   /* ---------- skills ---------- */
-  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 40px;}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 52px;}
   dl.kv{margin:0;}
   dl.kv dt{
     font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
@@ -244,12 +294,11 @@
   dl.kv dd{margin:0 0 18px;font-size:15px;color:var(--ink-soft);}
   dl.kv dd:last-child{margin-bottom:0;}
 
-  .minilist{list-style:none;margin:0;padding:0;}
-  .minilist li{
-    padding:11px 0;border-top:1px solid var(--rule);font-size:15px;color:var(--ink-soft);
-  }
-  .minilist li:first-child{border-top:0;}
-  .minilist .lbl{color:var(--muted);font-size:12.5px;letter-spacing:.03em;display:block;}
+  .project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;list-style:none;margin:0;padding:0;}
+  .project-grid li{background:rgba(255,255,255,.76);border:1px solid var(--rule);border-radius:12px;padding:20px;}
+  .project-grid .lbl{color:var(--clay);font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:10px;}
+  .project-grid strong{display:block;font-family:var(--serif);font-size:18px;line-height:1.25;margin-bottom:9px;}
+  .project-grid p{font-size:13.8px;line-height:1.52;color:var(--ink-soft);margin:0;}
 
   /* ---------- dated list (training / presentations) ---------- */
   ul.dated{list-style:none;margin:0;padding:0;}
@@ -280,12 +329,15 @@
   .subhead:first-child{margin-top:0;}
 
   /* ---------- contact ---------- */
-  .contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 40px;max-width:720px;}
+  #contact{border-bottom:0;}
+  #contact .sec-body{background:var(--accent);color:#fff;border-radius:18px;padding:31px 34px;box-shadow:var(--shadow);}
+  .contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 40px;max-width:760px;}
   .contact-grid .lbl{
     font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--muted);margin:0 0 4px;
+    color:#b9d1d6;margin:0 0 4px;
   }
   .contact-grid p{margin:0;font-size:15.5px;}
+  .contact-grid a{color:#fff;text-decoration-color:rgba(255,255,255,.45);}
 
   footer.site{
     padding:30px 0 56px;font-size:13px;color:var(--muted);
@@ -294,18 +346,24 @@
 
   /* ---------- responsive ---------- */
   @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:42px;}
+    .hero-note{max-width:620px;}
     .sec{grid-template-columns:1fr;gap:20px;}
-    .sec > h2{position:static;padding-bottom:10px;border-bottom:1px solid var(--rule-strong);}
+    .sec > h2{position:static;padding-bottom:12px;border-bottom:1px solid var(--rule-strong);display:flex;align-items:baseline;gap:12px;}
+    .sec > h2::before{font-size:23px;margin:0;}
     .grid2{grid-template-columns:1fr;gap:0;}
     .contact-grid{grid-template-columns:1fr;}
+    .research-design{grid-template-columns:1fr;}
+    .project-grid{grid-template-columns:1fr;}
   }
   @media (max-width:640px){
     body{font-size:16px;}
     .wrap{padding:0 20px;}
-    .hero{padding:44px 0 40px;}
+    .hero{padding:54px 0 46px;}
     main section{padding:40px 0;}
     .lede{max-width:none;}
-    .card{padding:20px 18px;}
+    .cards{grid-template-columns:1fr;}
+    .card,.card.featured{grid-column:auto;padding:22px 20px;}
     .entries > li,ul.dated li{grid-template-columns:1fr;gap:6px;}
     .entries .date span{display:inline;}
     .entries .date span + span::before{content:" ";}
@@ -317,6 +375,8 @@
     .sitenav .wrap{gap:0;}
     .wordmark{display:none;}
     .navlinks{margin-left:0;}
+    .hero-note{padding:22px 20px;}
+    #contact .sec-body{padding:24px 21px;}
   }
 
   /* ---------- print ---------- */
@@ -331,7 +391,7 @@
     main section{padding:12pt 0;border-bottom:0;break-inside:avoid;}
     .sec{grid-template-columns:110pt 1fr;gap:16pt;}
     .sec > h2{position:static;font-size:8.5pt;}
-    .card{border:0;border-left:1.5pt solid #000;border-radius:0;padding:0 0 0 10pt;background:none;break-inside:avoid;}
+    .card,.card.featured{border:0;border-left:1.5pt solid #000;border-radius:0;padding:0 0 0 10pt;background:none;break-inside:avoid;box-shadow:none;}
     .entries > li.lead{border:0;border-left:1.5pt solid #000;border-radius:0;padding:0 0 0 10pt;background:none;margin:0;}
     .tag{border:0;background:none;padding:0;color:#000;}
     ul.chips li{border:0;padding:0 8pt 0 0;background:none;}
@@ -339,6 +399,13 @@
     a[href^="http"]::after{content:" (" attr(href) ")";font-size:8pt;color:#555;word-break:break-all;}
     a[href^="mailto"]::after{content:"";}
     details.more summary{display:none;}
+    .hero-note{display:none;}
+    .research-design{display:block;border:0;}
+    .design-item{padding:4pt 0;background:none;}
+    .project-grid{display:block;}
+    .project-grid li{border:0;padding:5pt 0;background:none;break-inside:avoid;}
+    #contact .sec-body{background:none;color:#000;padding:0;box-shadow:none;}
+    .contact-grid a{color:#000;}
   }
 </style>
 </head>
@@ -348,7 +415,7 @@
 
 <nav class="sitenav" aria-label="Section navigation">
   <div class="wrap">
-    <a class="wordmark" href="#top">Anushka Mukherjee</a>
+    <a class="wordmark" href="#top"><span class="monogram" aria-hidden="true">AM</span><span>Anushka Mukherjee</span></a>
     <ul class="navlinks">
       <li><a href="#research">Research</a></li>
       <li><a href="#experience">Experience</a></li>
@@ -363,18 +430,26 @@
 
 <header class="hero" id="top">
   <div class="wrap">
-    <p class="eyebrow">Applied economics &middot; AI governance &middot; Macro-finance</p>
-    <h1>Anushka <em>Mukherjee</em></h1>
-    <p class="lede">Doctoral researcher using applied economics, causal inference and administrative and firm-level data to study AI governance, labour-market harms and macro-financial transmission.</p>
-    <p class="affil">
-      <strong>Halle Institute for Economic Research (IWH)</strong> &middot;
-      <strong>Leipzig University</strong> &middot; Halle (Saale), Germany
-    </p>
-    <div class="actions">
-      <a class="btn btn-primary" href="#research">View research</a>
-      <a class="btn btn-ghost" href="mailto:anushka.mukherjee@iwh-halle.de">Email me</a>
-      <!-- CV compiled from the LaTeX source; keep anushka-mukherjee-cv.pdf beside this file. -->
-      <a class="btn btn-ghost" href="anushka-mukherjee-cv.pdf" download>Download CV (PDF)</a>
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Applied economics &middot; AI governance &middot; Macro-finance</p>
+        <h1>Anushka <em>Mukherjee</em></h1>
+        <p class="lede">Doctoral researcher using causal inference and firm-level evidence to study AI governance, labour-market harms and the transmission of global financial shocks.</p>
+        <p class="affil"><strong>Halle Institute for Economic Research (IWH)</strong> &middot; <strong>Leipzig University</strong> &middot; Halle (Saale), Germany</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#research">View research</a>
+          <a class="btn btn-ghost" href="mailto:anushka.mukherjee@iwh-halle.de">Email me</a>
+          <button class="btn btn-ghost" type="button" onclick="window.print()">Save as PDF</button>
+        </div>
+      </div>
+      <aside class="hero-note" aria-label="Research profile">
+        <p class="hero-note-label">Current research</p>
+        <dl>
+          <div><dt>Doctoral field</dt><dd>International macro-finance and multinational firms</dd></div>
+          <div><dt>Governance focus</dt><dd>Auditable measurement of harm in deployed public systems</dd></div>
+          <div><dt>Empirical toolkit</dt><dd>Panel methods, event studies, causal ML and text measurement</dd></div>
+        </dl>
+      </aside>
     </div>
   </div>
 </header>
@@ -385,11 +460,11 @@
     <!-- ===================== SELECTED RESEARCH ===================== -->
     <section id="research" aria-labelledby="h-research">
       <div class="sec">
-        <h2 id="h-research">Selected research</h2>
+        <h2 id="h-research" data-index="01">Selected research</h2>
         <div class="sec-body">
           <div class="cards">
 
-            <article class="card">
+            <article class="card featured">
               <p class="status">
                 <span class="tag tag-paper">Working paper</span>
                 <span class="byline" style="margin:0">2026</span>
@@ -445,7 +520,7 @@
     <!-- ===================== EXPERIENCE ===================== -->
     <section id="experience" aria-labelledby="h-exp">
       <div class="sec">
-        <h2 id="h-exp">Experience</h2>
+        <h2 id="h-exp" data-index="02">Experience</h2>
         <div class="sec-body">
           <ul class="entries">
             <li class="lead">
@@ -496,18 +571,18 @@
     <!-- ===================== DISSERTATION ===================== -->
     <section id="dissertation" aria-labelledby="h-diss">
       <div class="sec">
-        <h2 id="h-diss">Dissertation</h2>
+        <h2 id="h-diss" data-index="03">Dissertation</h2>
         <div class="sec-body">
           <p class="when">2025–2029 (expected) &middot; Leipzig University &amp; Halle Institute for Economic Research (IWH)</p>
-          <h3>Multinational Enterprises and the Transmission of the Global Financial Cycle: A Firm-Level Analysis for Germany</h3>
+          <h3 class="diss-title">Multinational Enterprises and the Transmission of the Global Financial Cycle</h3>
           <p class="byline">Provisional working title</p>
-          <p class="detail">Asks how global financial conditions reach the real economy through individual firms, and whether multinationals&rsquo; international production and financing structures amplify exposure to global shocks or instead confer resilience.</p>
-          <p class="detail">The empirical work combines firm-level production function estimation with panel and event-study designs, comparing multinational with purely domestic firms and firms under differing degrees of financial constraint.</p>
-          <ul class="chips">
-            <li>Production function estimation</li>
-            <li>Panel fixed effects</li>
-            <li>Event studies</li>
-          </ul>
+          <p class="diss-lede">The dissertation studies how shifts in global risk aversion, financing conditions and uncertainty affect firm-level productivity, investment and employment, and whether multinational firms amplify these shocks or absorb them through diversified operations and internal capital markets.</p>
+          <p class="detail">The planned empirical strategy combines firm-level production-function estimation with panel regressions containing firm and time fixed effects. It is designed to distinguish changes in physical productivity from price and demand effects, trace adjustment through labour and capital, and estimate heterogeneous responses by multinational status and financial constraints. Global financial conditions are measured using established indicators of risk aversion, credit conditions and uncertainty, while identification exploits differences in firms&rsquo; pre-existing international exposure and balance-sheet characteristics.</p>
+          <div class="research-design" aria-label="Dissertation research design">
+            <div class="design-item"><span class="n">01</span><strong>Outcomes</strong><span>Physical productivity, investment and employment at the firm level.</span></div>
+            <div class="design-item"><span class="n">02</span><strong>Identification</strong><span>Global financial indicators interacted with predetermined firm exposure.</span></div>
+            <div class="design-item"><span class="n">03</span><strong>Channels</strong><span>External financing, uncertainty and internal capital reallocation.</span></div>
+          </div>
         </div>
       </div>
     </section>
@@ -515,7 +590,7 @@
     <!-- ===================== EDUCATION ===================== -->
     <section id="education" aria-labelledby="h-edu">
       <div class="sec">
-        <h2 id="h-edu">Education</h2>
+        <h2 id="h-edu" data-index="04">Education</h2>
         <div class="sec-body">
           <ul class="entries">
             <li>
@@ -559,30 +634,28 @@
     <!-- ===================== METHODS & SKILLS ===================== -->
     <section id="methods" aria-labelledby="h-methods">
       <div class="sec">
-        <h2 id="h-methods">Methods &amp; skills</h2>
+        <h2 id="h-methods" data-index="05">Methods &amp; skills</h2>
         <div class="sec-body">
           <div class="grid2">
             <dl class="kv">
               <dt>Programming</dt>
-              <dd>Python &middot; R &middot; Stata &middot; Matlab &middot; Git &middot; LaTeX</dd>
+              <dd>Python &middot; R &middot; Stata &middot; MATLAB &middot; Git &middot; LaTeX</dd>
               <dt>Machine learning &amp; statistics</dt>
-              <dd>scikit-learn &middot; HuggingFace &middot; DoubleML &middot; statsmodels</dd>
+              <dd>scikit-learn &middot; Hugging Face &middot; DoubleML &middot; statsmodels</dd>
               <dt>Empirical methods</dt>
-              <dd>Causal inference on administrative and firm-level microdata &middot; panel and event-study designs &middot; production function estimation &middot; bounding and sensitivity analysis &middot; text- and network-based measurement</dd>
+              <dd>Panel and event-study designs &middot; causal machine learning &middot; bounding and sensitivity analysis &middot; text- and network-based measurement</dd>
             </dl>
             <dl class="kv">
               <dt>Languages</dt>
               <dd>English — fluent (medium of instruction and research)<br>Bengali — native<br>Hindi — native<br>German — B1<br>French — A1</dd>
-              <dt>Data</dt>
-              <dd>AFiD (confidential German firm microdata) &middot; Compustat &middot; fDi Markets &middot; Crunchbase &middot; Federal Employment Agency published statistics</dd>
             </dl>
           </div>
 
           <p class="subhead">Selected technical projects</p>
-          <ul class="minilist">
-            <li><span class="lbl">2025 &middot; ENSAE Paris &middot; Python</span><strong>Causal ML with DoubleML</strong> — orthogonalisation and cross-fitting to estimate treatment effects of scholarships on student retention.</li>
-            <li><span class="lbl">2023 &middot; University of Bonn &middot; Python</span><strong>Sentiment analysis with DistilBERT</strong> — fine-tuned a HuggingFace model to classify emotional patterns in poetry; documented NLP pipeline from preprocessing to evaluation.</li>
-            <li><span class="lbl">2023–24 &middot; University of Bonn &middot; R</span><strong>Polynomial order in RDD</strong> — Monte Carlo study of how polynomial order selection affects regression discontinuity estimates.</li>
+          <ul class="project-grid">
+            <li><span class="lbl">2025 &middot; ENSAE Paris &middot; Python</span><strong>Causal ML with DoubleML</strong><p>Implemented a partially linear DoubleML specification with orthogonal scores and cross-fitted nuisance models to estimate scholarship effects on student outcomes. Built the preprocessing and inference pipeline and obtained estimated effects of −17.6 percentage points on dropout and +23.8 points on graduation.</p></li>
+            <li><span class="lbl">2023 &middot; University of Bonn &middot; Python</span><strong>Sentiment analysis with DistilBERT</strong><p>Fine-tuned DistilBERT for multi-class emotion classification in poetry. Developed the full NLP workflow covering text cleaning, tokenisation, train-validation splitting, model training and evaluation using class-level performance metrics.</p></li>
+            <li><span class="lbl">2023–24 &middot; University of Bonn &middot; R</span><strong>Polynomial order in RDD</strong><p>Designed a Monte Carlo experiment to compare regression-discontinuity estimators across polynomial specifications. Evaluated finite-sample bias, variance and root mean squared error under repeated simulated treatment assignments around a fixed cutoff.</p></li>
           </ul>
         </div>
       </div>
@@ -591,7 +664,7 @@
     <!-- ===================== PRESENTATIONS, WRITING, TRAINING ===================== -->
     <section id="writing" aria-labelledby="h-writing">
       <div class="sec">
-        <h2 id="h-writing">Talks, writing &amp; training</h2>
+        <h2 id="h-writing" data-index="06">Talks, writing &amp; training</h2>
         <div class="sec-body">
 
           <p class="subhead">Presentations</p>
@@ -606,11 +679,11 @@
           <ul class="dated">
             <li>
               <span class="d">Ongoing</span>
-              <span>Writing on economics, policy and global affairs <span class="host">— <a href="https://anushkamukherji.wordpress.com">anushkamukherji.wordpress.com</a></span></span>
+              <span>Writing on economics, policy and global affairs <span class="host">— <a href="https://anushkamukherji.wordpress.com" target="_blank" rel="noreferrer">anushkamukherji.wordpress.com</a></span></span>
             </li>
             <li>
               <span class="d">Sep 2024</span>
-              <span>Student reporter, Tropentag 2024 (BOKU Vienna): three articles on agroforestry, gender and food systems <span class="host">— <a href="https://blog.tropentag.de/category/2024/">blog.tropentag.de/category/2024</a></span></span>
+              <span>Student reporter, Tropentag 2024 (BOKU Vienna): three articles on agroforestry, gender and food systems <span class="host">— <a href="https://blog.tropentag.de/category/2024/" target="_blank" rel="noreferrer">blog.tropentag.de/category/2024</a></span></span>
             </li>
           </ul>
 
@@ -651,7 +724,7 @@
     <!-- ===================== CONTACT ===================== -->
     <section id="contact" aria-labelledby="h-contact">
       <div class="sec">
-        <h2 id="h-contact">Contact</h2>
+        <h2 id="h-contact" data-index="07">Contact</h2>
         <div class="sec-body">
           <div class="contact-grid">
             <div>
@@ -664,11 +737,11 @@
             </div>
             <div>
               <p class="lbl">Code</p>
-              <p><a href="https://github.com/annethecodegirl">github.com/annethecodegirl</a></p>
+              <p><a href="https://github.com/annethecodegirl" target="_blank" rel="noreferrer">github.com/annethecodegirl</a></p>
             </div>
             <div>
               <p class="lbl">Writing</p>
-              <p><a href="https://anushkamukherji.wordpress.com">anushkamukherji.wordpress.com</a></p>
+              <p><a href="https://anushkamukherji.wordpress.com" target="_blank" rel="noreferrer">anushkamukherji.wordpress.com</a></p>
             </div>
           </div>
         </div>
