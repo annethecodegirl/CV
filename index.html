@@ -197,12 +197,6 @@
   .card .status{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px;}
   .card p:last-child{margin-bottom:0;}
   .card .desc{font-size:15.5px;color:var(--ink-soft);max-width:66ch;}
-  .caveat{
-    font-size:14px;color:var(--ink-soft);
-    background:var(--bg);border:1px dashed var(--rule-strong);
-    border-radius:3px;padding:12px 14px;margin:14px 0 0;max-width:66ch;
-  }
-  .caveat strong{color:var(--ink);}
   ul.chips{display:flex;flex-wrap:wrap;gap:7px;list-style:none;margin:16px 0 0;padding:0;}
   ul.chips li{
     font-size:12px;letter-spacing:.03em;color:var(--muted);
@@ -218,6 +212,20 @@
   .entries > li:first-child{border-top:0;padding-top:0;}
   .entries .date{font-size:12.5px;color:var(--muted);letter-spacing:.03em;padding-top:3px;}
   .entries .date span{display:block;}
+  .kind{
+    font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 6px;
+  }
+  .kind-accent{color:var(--clay);}
+  .entries > li.lead{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-left:3px solid var(--clay);
+    border-radius:3px;
+    padding:22px 24px;
+    margin-bottom:8px;
+  }
+  .entries > li.lead + li{border-top:0;}
   .role{font-size:14.5px;color:var(--ink-soft);margin:0 0 8px;}
   .role .sep{color:var(--rule-strong);padding:0 4px;}
   .detail{font-size:15px;color:var(--ink-soft);max-width:66ch;margin:0 0 8px;}
@@ -324,7 +332,7 @@
     .sec{grid-template-columns:110pt 1fr;gap:16pt;}
     .sec > h2{position:static;font-size:8.5pt;}
     .card{border:0;border-left:1.5pt solid #000;border-radius:0;padding:0 0 0 10pt;background:none;break-inside:avoid;}
-    .caveat{border:0;border-left:1pt solid #999;padding:0 0 0 8pt;background:none;}
+    .entries > li.lead{border:0;border-left:1.5pt solid #000;border-radius:0;padding:0 0 0 10pt;background:none;margin:0;}
     .tag{border:0;background:none;padding:0;color:#000;}
     ul.chips li{border:0;padding:0 8pt 0 0;background:none;}
     a{color:#000;text-decoration:none;}
@@ -343,9 +351,10 @@
     <a class="wordmark" href="#top">Anushka Mukherjee</a>
     <ul class="navlinks">
       <li><a href="#research">Research</a></li>
-      <li><a href="#ai-governance">AI governance</a></li>
       <li><a href="#experience">Experience</a></li>
+      <li><a href="#dissertation">Dissertation</a></li>
       <li><a href="#education">Education</a></li>
+      <li><a href="#methods">Methods</a></li>
       <li><a href="#writing">Writing</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -364,30 +373,14 @@
     <div class="actions">
       <a class="btn btn-primary" href="#research">View research</a>
       <a class="btn btn-ghost" href="mailto:anushka.mukherjee@iwh-halle.de">Email me</a>
-      <!--
-        DOWNLOAD CV BUTTON — intentionally inactive.
-        No PDF was supplied with this build, so no link is rendered rather than a broken one.
-        To enable: place the file next to this page (e.g. anushka-mukherjee-cv.pdf) and
-        uncomment the line below.
-        <a class="btn btn-ghost" href="anushka-mukherjee-cv.pdf" download>Download CV (PDF)</a>
-      -->
+      <!-- CV compiled from the LaTeX source; keep anushka-mukherjee-cv.pdf beside this file. -->
+      <a class="btn btn-ghost" href="anushka-mukherjee-cv.pdf" download>Download CV (PDF)</a>
     </div>
   </div>
 </header>
 
 <main id="main">
   <div class="wrap">
-
-    <!-- ===================== RESEARCH PROFILE ===================== -->
-    <section id="profile" aria-labelledby="h-profile">
-      <div class="sec">
-        <h2 id="h-profile">Research profile</h2>
-        <div class="sec-body">
-          <p class="sec-intro">Empirical AI governance and safety, approached with the tools of applied economics: measuring algorithmic harm in deployed high-risk systems, AI incident monitoring, and compliance under the EU AI Act. Alongside this, work on how governance exposure prices into capital allocation, and on the macro-financial and labour-market effects of AI adoption.</p>
-          <p class="prose">Methodologically, the through-line is causal inference on administrative and firm-level microdata, event studies, and text- and network-based measurement — tools that transfer directly to evaluating deployed AI systems and estimating their downstream effects.</p>
-        </div>
-      </div>
-    </section>
 
     <!-- ===================== SELECTED RESEARCH ===================== -->
     <section id="research" aria-labelledby="h-research">
@@ -403,8 +396,7 @@
               </p>
               <h3>Estimating Differential Routing Rates in Germany&rsquo;s Federal Employment Agency</h3>
               <p class="byline">An epidemiological approach to AI incident monitoring in high-risk labour-market systems &middot; with Aileen Voit, Nafisah Animashaun and Leonard Schmidt &middot; SAIGE Incubator Working Paper</p>
-              <p class="desc">Germany&rsquo;s Federal Employment Agency routes unemployed jobseekers into support tracks of differing intensity. Treating the question as one of administrative surveillance, we estimate exposure and harm separately from published monthly statistics for June 2016 to April 2026. In the SGB III insurance regime, flight-context jobseekers are registered for unskilled-tier occupations 1.6 times as often as the comparison group and receive substantive vocational training at half the rate; SGB II shows parity.</p>
-              
+              <p class="desc">This paper examines differences in how unemployed jobseekers are registered across support categories within Germany&rsquo;s Federal Employment Agency. Using published monthly statistics, we find that flight-context jobseekers in the SGB III insurance regime are registered for unskilled-tier occupations 1.6 times as often as the comparison group and receive substantive vocational training at half the rate, while SGB II shows parity. Published aggregate data locate the disparity in SGB III but cannot identify whether it reflects the profiling infrastructure, selection into the insurance channel or caseworker practice.</p>
               <ul class="chips">
                 <li>Published administrative statistics</li>
                 <li>Bounded estimation</li>
@@ -450,15 +442,16 @@
       </div>
     </section>
 
-    <!-- ===================== AI SAFETY & GOVERNANCE ===================== -->
-    <section id="ai-governance" aria-labelledby="h-aigov">
+    <!-- ===================== EXPERIENCE ===================== -->
+    <section id="experience" aria-labelledby="h-exp">
       <div class="sec">
-        <h2 id="h-aigov">AI safety &amp; governance</h2>
+        <h2 id="h-exp">Experience</h2>
         <div class="sec-body">
           <ul class="entries">
-            <li>
+            <li class="lead">
               <div class="date"><span>2026</span><span>Apr–Jul</span></div>
               <div>
+                <p class="kind kind-accent">AI safety &amp; governance</p>
                 <h3 class="ent">SAFE AI Germany (SAIGE), Berlin</h3>
                 <p class="role">SAIGE Incubator Programme — AI Governance &amp; Policy Track<span class="sep">&middot;</span>Mentor: Branwen Nia Owen (Arcadia)</p>
                 <ul class="bullets">
@@ -468,40 +461,10 @@
                 </ul>
               </div>
             </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== DOCTORAL RESEARCH ===================== -->
-    <section id="doctoral" aria-labelledby="h-doc">
-      <div class="sec">
-        <h2 id="h-doc">Doctoral research</h2>
-        <div class="sec-body">
-          <p class="when">2025–2029 (expected) &middot; Leipzig University &amp; Halle Institute for Economic Research (IWH)</p>
-          <h3>Multinational Enterprises and the Transmission of the Global Financial Cycle: A Firm-Level Analysis for Germany</h3>
-          <p class="byline">Provisional working title</p>
-          <p class="detail">The dissertation asks how global financial conditions reach the real economy through individual firms, and whether multinationals&rsquo; international production and financing structures amplify exposure to global shocks or instead confer resilience.</p>
-          <p class="detail">The German component uses confidential AFiD firm-level microdata — covering private as well as listed firms, with the price and quantity information needed to estimate physical total factor productivity — through production function estimation and panel regressions with firm and time fixed effects. The greenfield FDI chapter listed under <a href="#research">selected research</a> uses a separate fDi Markets–Compustat panel.</p>
-          <ul class="chips">
-            <li>AFiD microdata</li>
-            <li>Production function estimation</li>
-            <li>TFPQ</li>
-            <li>Panel fixed effects</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== EXPERIENCE ===================== -->
-    <section id="experience" aria-labelledby="h-exp">
-      <div class="sec">
-        <h2 id="h-exp">Research &amp; professional experience</h2>
-        <div class="sec-body">
-          <ul class="entries">
             <li>
               <div class="date"><span>2024</span><span>May–Oct</span></div>
               <div>
+                <p class="kind">Development research</p>
                 <h3 class="ent">Centre for Development Research (ZEF), Bonn</h3>
                 <p class="role">Research Assistant</p>
                 <p class="detail">Supported the BMBF-funded &ldquo;Future African Savannas&rdquo; (AFAS) project across Bonn, Cologne and African partner universities; managed full planning for the AFAS Summer School (August 2024), including logistics, costing and international coordination.</p>
@@ -510,6 +473,7 @@
             <li>
               <div class="date"><span>2022</span><span>Apr–Oct</span></div>
               <div>
+                <p class="kind">Public policy</p>
                 <h3 class="ent">School of Policy and Governance</h3>
                 <p class="role">Summer Intern — Programme Support</p>
                 <p class="detail">Contributed to content development and outreach for the &ldquo;Net Zero Fellowship&rdquo; and the &ldquo;Certificate Course on Public Policy&rdquo;; provided backend support for the e-learning platform and website.</p>
@@ -518,11 +482,31 @@
             <li>
               <div class="date"><span>2021</span><span>May–Jun</span></div>
               <div>
+                <p class="kind">Corporate finance</p>
                 <h3 class="ent">Essar Oil &amp; Gas Exploration &amp; Production Ltd.</h3>
                 <p class="role">Finance Intern</p>
                 <p class="detail">Balance sheet preparation for the annual audit; project on production and exploration accounting.</p>
               </div>
             </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DISSERTATION ===================== -->
+    <section id="dissertation" aria-labelledby="h-diss">
+      <div class="sec">
+        <h2 id="h-diss">Dissertation</h2>
+        <div class="sec-body">
+          <p class="when">2025–2029 (expected) &middot; Leipzig University &amp; Halle Institute for Economic Research (IWH)</p>
+          <h3>Multinational Enterprises and the Transmission of the Global Financial Cycle: A Firm-Level Analysis for Germany</h3>
+          <p class="byline">Provisional working title</p>
+          <p class="detail">Asks how global financial conditions reach the real economy through individual firms, and whether multinationals&rsquo; international production and financing structures amplify exposure to global shocks or instead confer resilience.</p>
+          <p class="detail">The empirical work combines firm-level production function estimation with panel and event-study designs, comparing multinational with purely domestic firms and firms under differing degrees of financial constraint.</p>
+          <ul class="chips">
+            <li>Production function estimation</li>
+            <li>Panel fixed effects</li>
+            <li>Event studies</li>
           </ul>
         </div>
       </div>
@@ -539,7 +523,7 @@
               <div>
                 <h3 class="ent">Leipzig University <span class="role" style="display:inline">&middot; IWH Halle</span></h3>
                 <p class="role">PhD in Economics</p>
-                <p class="detail">Dissertation on multinational enterprises and the transmission of the global financial cycle — see <a href="#doctoral">doctoral research</a>.</p>
+                <p class="detail">Dissertation on multinational enterprises and the transmission of the global financial cycle — see <a href="#dissertation">dissertation</a>.</p>
               </div>
             </li>
             <li>
@@ -575,7 +559,7 @@
     <!-- ===================== METHODS & SKILLS ===================== -->
     <section id="methods" aria-labelledby="h-methods">
       <div class="sec">
-        <h2 id="h-methods">Methods &amp; technical skills</h2>
+        <h2 id="h-methods">Methods &amp; skills</h2>
         <div class="sec-body">
           <div class="grid2">
             <dl class="kv">
@@ -607,7 +591,7 @@
     <!-- ===================== PRESENTATIONS, WRITING, TRAINING ===================== -->
     <section id="writing" aria-labelledby="h-writing">
       <div class="sec">
-        <h2 id="h-writing">Presentations, writing &amp; training</h2>
+        <h2 id="h-writing">Talks, writing &amp; training</h2>
         <div class="sec-body">
 
           <p class="subhead">Presentations</p>
@@ -644,12 +628,16 @@
             <summary>Additional training and workshops</summary>
             <ul class="dated">
               <li><span class="d">Apr 2026</span><span>Provably Safe Neural Network Controllers via Differential Dynamic Logic <span class="host">— Orpheus Lummis &amp; Samuel Teuber, HΩ</span></span></li>
-              <li><span class="d">Feb 2026</span><span>Designing Effective Academic Posters <span class="host">— Martin-Luther-Universität Halle-Wittenberg</span></span></li>
+              <li><span class="d">Feb 2026</span><span>Workshop on Designing Effective Academic Posters <span class="host">— Martin-Luther-Universität Halle-Wittenberg</span></span></li>
               <li><span class="d">Nov 2025</span><span>Euro20+ Workshop <span class="host">— Deutsche Bundesbank, Frankfurt</span></span></li>
               <li><span class="d">Oct 2025</span><span>Climate and Energy Policy Workshop <span class="host">— Leipzig University</span></span></li>
               <li><span class="d">Jun 2025</span><span>Certificate of Intercultural Competence <span class="host">— University of Bonn</span></span></li>
+              <li><span class="d">Sep 2024</span><span>Student Reporter, Tropentag 2024 <span class="host">— BOKU Vienna</span></span></li>
+              <li><span class="d">Jul 2024</span><span>Deutsch als Fremdsprache B1.1 <span class="host">— University of Bonn</span></span></li>
               <li><span class="d">Aug 2023</span><span>Start-up Summer School <span class="host">— H-BRS &amp; University of Bonn</span></span></li>
               <li><span class="d">Jul 2023</span><span>Summer School on Ethics <span class="host">— University of Bonn &amp; University of Ghana</span></span></li>
+              <li><span class="d">May 2023</span><span>Intercultural Training <span class="host">— University of Bonn</span></span></li>
+              <li><span class="d">Oct 2022</span><span>Public Policy Certificate Course <span class="host">— School of Policy and Governance</span></span></li>
             </ul>
           </details>
 
@@ -702,23 +690,50 @@
   // enhancement only — the page works fully without it.
   (function () {
     var links = Array.prototype.slice.call(document.querySelectorAll('.navlinks a'));
-    var map = {};
-    var targets = [];
+    var items = [];
     links.forEach(function (a) {
       var el = document.querySelector(a.getAttribute('href'));
-      if (el) { map[el.id] = a; targets.push(el); }
+      if (el) items.push({ link: a, section: el });
     });
-    if (!('IntersectionObserver' in window) || !targets.length) return;
+    if (!items.length) return;
 
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        links.forEach(function (a) { a.removeAttribute('aria-current'); });
-        map[e.target.id].setAttribute('aria-current', 'true');
+    // Every section has its own nav entry, so the active link is simply the
+    // last section whose top edge has passed under the nav bar. Reading
+    // positions directly (rather than observing intersections) means a link
+    // can never stay lit while a different section fills the viewport.
+    function activeIndex() {
+      var offset = document.querySelector('.sitenav').offsetHeight + 24;
+      var atBottom = window.innerHeight + window.pageYOffset >=
+                     document.documentElement.scrollHeight - 2;
+      if (atBottom) return items.length - 1;
+      var found = -1;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].section.getBoundingClientRect().top <= offset) found = i;
+      }
+      return found; // -1 while the hero is still in view
+    }
+
+    var current = null, ticking = false;
+    function update() {
+      ticking = false;
+      var i = activeIndex();
+      if (i === current) return;
+      current = i;
+      items.forEach(function (it, n) {
+        if (n === i) it.link.setAttribute('aria-current', 'true');
+        else it.link.removeAttribute('aria-current');
       });
-    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    }
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
 
-    targets.forEach(function (t) { io.observe(t); });
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    window.addEventListener('hashchange', onScroll);
+    update();
   })();
 
   // Expand collapsed sections before printing so nothing is lost on paper.
