@@ -1,0 +1,54 @@
+"""Rebuild the portfolio's CV downloads. Requires reportlab."""
+from pathlib import Path
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.colors import HexColor
+from reportlab.lib.pagesizes import A4
+ROOT=Path(__file__).resolve().parents[1]
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+for name, filename in [('PortfolioSans','DejaVuSans.ttf'),('PortfolioSansBold','DejaVuSans-Bold.ttf'),('PortfolioSansOblique','DejaVuSans-Oblique.ttf')]:
+ pdfmetrics.registerFont(TTFont(name,'/usr/share/fonts/truetype/dejavu/'+filename))
+pdfmetrics.registerFontFamily('PortfolioSans',normal='PortfolioSans',bold='PortfolioSansBold',italic='PortfolioSansOblique',boldItalic='PortfolioSansBold')
+blue=HexColor('#2458ed'); ink=HexColor('#172238')
+styles={
+ 'title':ParagraphStyle('title',fontName='PortfolioSansBold',fontSize=24,leading=28,textColor=ink,spaceAfter=8),
+ 'section':ParagraphStyle('section',fontName='PortfolioSansBold',fontSize=10,leading=13,textColor=blue,spaceBefore=12,spaceAfter=6,keepWithNext=True),
+ 'body':ParagraphStyle('body',fontName='PortfolioSans',fontSize=9,leading=12.4,textColor=ink,spaceAfter=6),
+ 'small':ParagraphStyle('small',fontName='PortfolioSans',fontSize=8.5,leading=11.5,textColor=HexColor('#53617a'),spaceAfter=5),
+ 'entry':ParagraphStyle('entry',fontName='PortfolioSansBold',fontSize=10,leading=13.4,textColor=ink,spaceBefore=4,spaceAfter=4,keepWithNext=True)
+}
+site='https://annethecodegirl.github.io/CV/'
+dash='https://aifiscaldashboard.vercel.app/'
+doi='https://doi.org/10.3390/aisoc1020009'
+paper='Governing Frontier AI: Organizational Boundaries and the Providers of AI Governance'
+spar='Re-employment, Earnings Scarring and the Public Cost of AI Displacement'
+saige="Estimating Differential Routing Rates in Germany's Federal Employment Agency"
+def para(text,style='body'): return Paragraph(text,styles[style])
+def heading(text):return para(text.upper(),'section')
+def header(sub):return [para('Anushka Mukherjee','title'),para(sub,'small'),para('Berlin, Germany | anushka.mukherjee@iwh-halle.de','small'),para(f'<link href="{site}">annethecodegirl.github.io/CV</link> | <link href="https://github.com/annethecodegirl">github.com/annethecodegirl</link>','small')]
+def footer(label):
+ def draw(c,d):
+  c.setStrokeColor(HexColor('#dce2ec'));c.line(43,43,A4[0]-43,43)
+  c.setFont('PortfolioSans',8);c.setFillColor(HexColor('#53617a'));c.drawString(43,30,'Anushka Mukherjee | '+label);c.drawRightString(A4[0]-43,30,f'November 2026 | {d.page}')
+ return draw
+def build(name,flow,label):
+ doc=SimpleDocTemplate(str(ROOT/name),pagesize=A4,rightMargin=43,leftMargin=43,topMargin=39,bottomMargin=56,title='Anushka Mukherjee | '+label,author='Anushka Mukherjee')
+ doc.build(flow,onFirstPage=footer(label),onLaterPages=footer(label))
+f=header('ECONOMICS | AI GOVERNANCE | PUBLIC FINANCE | MACRO-FINANCE')
+f += [Spacer(1,6),para('<b>Research interests:</b> Economics of AI; organizational boundaries in frontier-AI governance; employment adjustment and public finance; multinational firms and the global financial cycle.'),heading('Education')]
+for title,txt in [
+ ('Leipzig University / Halle Institute for Economic Research (IWH)','PhD in Economics | 2025-present | Expected 2029<br/>Supervisor: Prof. Xiang Li. Research on multinational enterprises and the global financial cycle.'),
+ ('University of Bonn','MSc in Economics | 2022-2025 | Grade 1.6 (German scale, 1.0 best)<br/>Thesis: Modeling Household Carbon Footprints: Methods, Metrics and Estimation Frameworks.'),
+ ('ENSAE Paris','Visiting student | Feb-Jun 2025 | Erasmus+ mobility grant'),
+ ('Jadavpur University, Kolkata','BA in Economics | 2019-2022 | CGPA 8.72/10, First Class')]:f += [para(title,'entry'),para(txt)]
+f += [heading('Research appointments and programmes')]
+for title,txt in [
+ ('Halle Institute for Economic Research (IWH)','Doctoral Researcher, Macroeconomics | Oct 2025-present<br/>Firm-level research on multinational investment and global financial conditions using fDi Markets and Compustat.'),
+ ('SPAR','Research Participant | Sep 2026-present | Mentor: Pavel Kocourek<br/>Developing a ten-year Germany model of AI-related displacement, re-employment and unemployment-related fiscal costs, with supporting earnings-scarring and household-income analysis. <link href="'+dash+'" color="#2458ed">Interactive dashboard</link>.'),
+ ('SAFE AI Germany (SAIGE), Berlin',"AI Governance &amp; Policy Track | Apr-Jul 2026 | Mentor: Branwen Nia Owen<br/>Designed the monitoring framework, built a bounded estimator and wrote empirical sections of a co-authored paper on differential routing in Germany's Federal Employment Agency; submitted to AuDe proceedings (CEUR-WS).")]:f += [para(title,'entry'),para(txt)]
+f += [heading('Publication'),para(paper,'entry'),para('Sole-authored | <i>AI for Society</i> 1(2), 9 (2026). Published 9 November 2026.'),para('Maps 238 documented governance-provision instances into 99 distinct relationships across ten developers, including 58 external relationships; compares these with a baseline of 51 specialist firms. Disclosure-based evidence does not measure the entire governance market.'),para(f'<link href="{doi}" color="#2458ed">doi.org/10.3390/aisoc1020009</link>','small'),PageBreak(),para('Research and community','title'),heading('Submitted paper'),para(saige,'entry'),para('With Aileen Voit, Nafisah Animashaun and Leonard Schmidt | SAIGE, 2026<br/>Submitted to the AuDe workshop proceedings (CEUR-WS).'),para('Uses published monthly administrative statistics from June 2016 to April 2026 to study occupational registration and vocational training. Aggregate disparities do not establish algorithmic causation.'),heading('Research in progress'),para(spar,'entry'),para('SPAR | Mentor: Pavel Kocourek<br/>Interactive analysis of employment adjustment and unemployment-related fiscal costs in Germany over ten years. Conditional scenarios, not forecasts or estimates of the overall economic impact of AI.'),para(f'<link href="{dash}" color="#2458ed">aifiscaldashboard.vercel.app</link>','small'),para('Multinational Firms over the Global Financial Cycle: Greenfield FDI and the Transmission of US Monetary Policy','entry'),para('Sole-authored | Dissertation research<br/>Building a firm- and project-level panel using fDi Markets and Compustat to examine investment responses to US monetary policy, including US- and China-headquartered firms.'),heading('Selected technical projects'),para('<b>DoubleML (ENSAE Paris, 2025):</b> Python team project using orthogonal scores and cross-fitted nuisance models to estimate scholarship effects on student outcomes.<br/><b>DistilBERT (Bonn, 2023):</b> Fine-tuned emotion classification in poetry, including preprocessing and class-level evaluation.<br/><b>Regression discontinuity (Bonn, 2023-2024):</b> Monte Carlo comparison of polynomial specifications in R.'),heading('Presentations and service'),para('Nov 2026: Presented SPAR research dashboard at EAGx Berlin.<br/>Aug 2026: Research presentation, AuDe Workshop, IJCAI-ECAI, Bremen.<br/>Jul 2026: Discussant, IWH Macro Network Day, for work by André Casalis and Gregor von Schweinitz.<br/>Referee service: <i>Internet Policy Review</i>; <i>Economic Change and Restructuring</i>.'),heading('Effective altruism and AI safety community'),para('Conference volunteering at EAG and EAGx events, including Nordics and Amsterdam; registration volunteering at the EA Geneva Summit. Awareness-team support at EA Germany retreats in Fulda and Hermsdorf. Volunteer outreach for the AI Safety &amp; Society Exhibition.'),heading('Earlier research experience'),para('<b>ZEF, Bonn - Research Assistant, May-Oct 2024.</b> Supported Future African Savannas; coordinated planning, budgets and international logistics for the August 2024 summer school.'),heading('Methods and languages'),para('Python, R, Stata, MATLAB, Git, LaTeX; scikit-learn, Hugging Face, DoubleML, statsmodels. Panel and event-study designs; causal machine learning; bounding and sensitivity analysis; text and network measurement.<br/>English (fluent); Bengali and Hindi (native); German (B1); French (A1).')]
+build('Anushka_Mukherjee_Academic_CV.pdf',f,'Academic CV')
+r=header('ECONOMICS PHD RESEARCHER | AI GOVERNANCE & APPLIED RESEARCH')
+r += [Spacer(1,5),para('Doctoral researcher at IWH Halle and Leipzig University studying AI governance, employment adjustment and public finance, and multinational investment.'),heading('Research experience'),para('Doctoral Researcher | IWH','entry'),para('Oct 2025-present | Macroeconomics | Supervisor: Prof. Xiang Li<br/>Building firm- and project-level evidence on multinational investment and global financial conditions using fDi Markets and Compustat.'),para('Research Participant | SPAR','entry'),para('Sep 2026-present | Mentor: Pavel Kocourek<br/>Built an interactive Germany dashboard modelling AI-related displacement, re-employment and ten-year unemployment-related fiscal costs. Supporting analysis examines earnings scarring and household income. <link href="'+dash+'" color="#2458ed">Explore dashboard</link>.'),para('AI Governance & Policy Track | SAIGE Incubator','entry'),para('Apr-Jul 2026 | Berlin | Mentor: Branwen Nia Owen<br/>Co-authored research on differential routing in Germany’s Federal Employment Agency, submitted to AuDe proceedings (CEUR-WS). Designed the monitoring framework, bounded estimator and empirical analysis.'),heading('Published research'),para(paper,'entry'),para('Sole-authored | <i>AI for Society</i> 1(2), 9 (2026). <link href="'+doi+'" color="#2458ed">Read article</link>.<br/>Mapped 238 governance-provision instances into 99 distinct relationships across ten frontier developers; compared disclosure-based evidence with 51 specialist firms.'),heading('Education'),para('<b>Leipzig University / IWH:</b> PhD Economics, 2025-present; expected 2029.<br/><b>University of Bonn:</b> MSc Economics, 2025; grade 1.6 (1.0 best).<br/><b>ENSAE Paris:</b> Erasmus+ visiting student, Feb-Jun 2025.<br/><b>Jadavpur University:</b> BA Economics, 2022; 8.72/10, First Class.'),heading('Methods and technical work'),para('Python, R, Stata, MATLAB, Git, LaTeX. Panel and event-study designs, bounding and sensitivity analysis, causal machine learning.<br/>Coursework: DoubleML estimation with cross-fitting (ENSAE, 2025); DistilBERT emotion classification (Bonn, 2023); regression-discontinuity simulation in R (Bonn, 2023-2024).'),heading('Community and engagement'),para('Active in effective altruism and AI safety communities: conference volunteering, registration and awareness-team support. Presented the SPAR dashboard at EAGx Berlin (November 2026); volunteer outreach for the AI Safety &amp; Society Exhibition.')]
+build('Anushka_Mukherjee_Research_Resume.pdf',r,'Research resume')
